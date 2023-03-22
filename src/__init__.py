@@ -5,7 +5,8 @@ import torch
 import logging
 
 if not setting.ml_train:
-    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+    #os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+    torch.cuda.set_device(0)
     # config = tf.ConfigProto()
     # config.gpu_options.allow_growth = True
     # set_session(tf.Session(config=config))
@@ -13,9 +14,11 @@ if not setting.ml_train:
 # CUDA for PyTorch
 use_cuda = cuda.is_available()
 if use_cuda:
+    print('gpu device')
     device2 = device("cuda:0")
     cuda.set_device(device2)
 else:
+    print('cpu device')
     device2 = device("cpu")
 
 torch.set_default_tensor_type('torch.FloatTensor')

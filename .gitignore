@@ -25,3 +25,6 @@ synergy_score/*.pkl
 synergy_score/*.npy
 *history_data_*
 *prediction/*
+data/synergy_score/
+test__0.3_cv0_alpha4_gene_dep_and_expr_rwr3_dt_datas/
+
