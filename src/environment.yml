@@ -1,4 +1,4 @@
-name: transynergy
+name: transynergy2
 channels:
   - conda-forge
   - defaults

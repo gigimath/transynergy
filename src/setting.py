@@ -4,9 +4,29 @@ import shutil
 
 unit_test = False
 
-working_dir = os.getcwd()
-src_dir = os.path.join(working_dir, 'src')
-data_src_dir = os.path.join(working_dir, 'data')
+
+src_dir = os.path.join(os.getcwd(), 'src')
+data_src_dir = os.path.join(os.getcwd(), 'data')
+# 0,1,2,3
+dev_numb = int(3)
+# 0,1,2,3,4
+cvn = int(4)
+n_epochs = 800
+uniq_part = "_run_cvn{!r}".format(cvn)
+run_dir = os.path.join(os.getcwd(), uniq_part)
+working_dir = run_dir
+
+logfile = os.path.join(run_dir, 'logfile')
+
+run_specific_setting = os.path.join(run_dir, "setting.py")
+cur_dir_setting = os.path.join(src_dir, "setting.py")
+
+if not os.path.exists(run_dir):
+    os.makedirs(run_dir)
+    open(os.path.join(run_dir, "__init__.py"), 'w+').close()
+    shutil.copyfile(cur_dir_setting, run_specific_setting)
+
+
 # propagation_methods: target_as_1, RWlike, random_walk
 propagation_method = 'random_walk'
 # feature type: LINCS1000, others, determine whether or not ignoring drugs without hidden representation
@@ -19,28 +39,18 @@ start_lr = 0.00003
 lr_decay = 0.00002
 model_type = 'mlp'
 FC_layout = [256] * 1 + [64] * 1
-n_epochs = 800
+
 batch_size = 128
 loss = 'mse'
 NBS_logfile = os.path.join(working_dir, 'NBS_logfile')
-data_specific = '_0.3_cv0_alpha4_gene_dep_and_expr_rwr3'
+data_specific = '_0.3_'+str(cvn)+'_alpha4_gene_dep_and_expr_rwr3'
 # _0.3_cv0_alpha3_gene_dep_and_expr_rwr3
 data_folder = os.path.join(working_dir, 'datas' + data_specific)
 if not os.path.exists(data_folder):
     os.makedirs(data_folder)
     open(os.path.join(data_folder, "__init__.py"), 'w+').close()
 
-uniq_part = "_run_{!r}".format(int(time()))
-run_dir = os.path.join(working_dir, uniq_part)
-logfile = os.path.join(run_dir, 'logfile')
 
-run_specific_setting = os.path.join(run_dir, "setting.py")
-cur_dir_setting = os.path.join(src_dir, "setting.py")
-
-if not os.path.exists(run_dir):
-    os.makedirs(run_dir)
-    open(os.path.join(run_dir, "__init__.py"), 'w+').close()
-    shutil.copyfile(cur_dir_setting, run_specific_setting)
 
 update_final_index = True
 final_index = os.path.join(data_src_dir, "synergy_score/final_index.csv")
@@ -162,8 +172,13 @@ attention_heads = 1
 attention_dropout = 0.1
 n_layers = 1 # This has to be 1
 
+model_folder = os.path.join(working_dir, 'model')
+if not os.path.exists(model_folder):
+    os.makedirs(model_folder)
+    open(os.path.join(model_folder, "__init__.py"), 'w+').close()
+    
 load_old_model = False
-old_model_path = os.path.join(working_dir, "_run_1582753440/best_model__2401_0.8_norm_drug_target_36_norm_net_single")
+old_model_path = os.path.join(working_dir, "model"+os.sep+"best_model__2401_0.8_norm_drug_target_36_norm_net_single")
 
 get_feature_imp = False
 save_feature_imp_model = True

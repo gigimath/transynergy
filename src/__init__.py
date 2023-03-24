@@ -6,7 +6,8 @@ import logging
 
 if not setting.ml_train:
     #os.environ["CUDA_VISIBLE_DEVICES"] = "2"
-    torch.cuda.set_device(0)
+    dev_numb = setting.dev_numb
+    torch.cuda.set_device(dev_numb)
     # config = tf.ConfigProto()
     # config.gpu_options.allow_growth = True
     # set_session(tf.Session(config=config))
@@ -15,6 +16,7 @@ if not setting.ml_train:
 use_cuda = cuda.is_available()
 if use_cuda:
     print('gpu device')
+    print('Using device number:', torch.cuda.current_device())
     device2 = device("cuda:0")
     cuda.set_device(device2)
 else:
